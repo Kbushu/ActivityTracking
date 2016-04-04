@@ -1,8 +1,8 @@
 # Download and create directory
 # Check if folder exist, create otherwise
-datadirectory <- ".\\downloads\\activitytracking\\dataset"
-        if (!file.exists(datadirectory)) {
-                dir.create(datadirectory)
+in_dir <- paste0(getwd(),"/","data")
+        if (!dir.exists(in_dir)) {
+                dir.create(in_dir)
         }
 # download to ("C:\\Users\\khuisamen\\Downloads"
 dataurl <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
