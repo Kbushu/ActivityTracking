@@ -78,8 +78,9 @@
                 arrange(Subject, ActionName, Domain, Sensor, Motion)
         # Create a summary data set of the mean
         ActivityTrackSummary <- summarise_each(act_subj_grp, funs(mean))
-        # save(file="ActivityTrackSummary.Rda", ActivityTrackSummary)
+        # To create the sumbmission file
+        # write.table(ActivityTrackSummary, file="ActivityTrackSummary.txt", row.names = FALSE)
         
-# Clean up environemt
+# Clean up environment
         rm(list=ls()[! ls() %in% c("ActivityTrack","ActivityTrackSummary")])
         
