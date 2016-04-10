@@ -68,17 +68,18 @@
                 mutate(Domain = ifelse(grepl("^f",variable),"Fourier","Time")) %>%
                 mutate(Sensor = ifelse(grepl("Gyro",variable),"Gyroscope","Accelorometer")) %>%
                 mutate(Motion = ifelse(grepl("Body",variable),"Body","Gravity"))
-
-
-        MeanStandardFinal <- select(MeanStandardFinal, Subject, ActionName, Domain, Sensor, Motion, variable, Value)
+        # Rearrange the columns in a tidy format
+        ActivityTrack <- select(MeanStandardFinal, Subject, ActionName, Domain, Sensor, Motion, variable, Value)
+        # save(file="ActivityTrack.Rda", ActivityTrack)
         
-        # Cast the mean for each subject and activity for each variable
-
+# Summarise data by each variable for activity and subject
+        act_subj_grp <- MeanStandardFinal %>% select(Subject, ActionName, Domain, Sensor, Motion, Value) %>%
+                group_by(Subject, ActionName, Domain, Sensor, Motion) %>%
+                arrange(Subject, ActionName, Domain, Sensor, Motion)
+        # Create a summary data set of the mean
+        ActivityTrackSummary <- summarise_each(act_subj_grp, funs(mean))
+        # save(file="ActivityTrackSummary.Rda", ActivityTrackSummary)
         
-        save(file="MeanStandard.Rda", MeanStandard)
-        
-# Summarise data by activity and subject
-        act_subj_grp <- group_by(MeanStandard, ActionName, Subject)
-        MeanSummary <- summarise_each(act_subj_grp, funs(mean))
-        save(file="MeanSummary.Rda", MeanSummary)
+# Clean up environemt
+        rm(list=ls()[! ls() %in% c("ActivityTrack","ActivityTrackSummary")])
         
